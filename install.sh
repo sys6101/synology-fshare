@@ -1,30 +1,28 @@
 #!/bin/bash
 
 REPO="https://raw.githubusercontent.com/mson-ssh/synology-fshare/main"
-PHP_DIR1="/var/packages/DownloadStation/etc/download/userhosts/fsharevn"
-PHP_DIR2="/var/packages/DownloadStation/target/hostscript/hosts/fsharevn"
+PLUGIN_DIR="/var/packages/DownloadStation/etc/download/userhosts/fsharevn"
+HOST_DIR="/var/packages/DownloadStation/target/hostscript/hosts/fsharevn"
 PYLOAD_HOSTER="/var/packages/DownloadStation/target/pyload/module/plugins/hoster"
 PYLOAD_ACCOUNT="/var/packages/DownloadStation/target/pyload/module/plugins/accounts"
 PYLOAD_CONF="/var/packages/DownloadStation/etc/pyload/plugin.conf"
+HOST_ENABLED="/var/packages/DownloadStation/etc/download/host_enabled.conf"
 
 echo "========================================"
 echo "  Fshare.vn Plugin Installer"
 echo "  for Synology Download Station"
 echo "========================================"
 
-# Kiểm tra đang chạy trên Synology
 if [ ! -f /etc/synoinfo.conf ]; then
     echo "[!] Script này chỉ chạy trên Synology NAS."
     exit 1
 fi
 
-# Kiểm tra Download Station đã cài chưa
 if [ ! -d /volume1/@appstore/DownloadStation ]; then
     echo "[!] Download Station chưa được cài đặt."
     exit 1
 fi
 
-# Kiểm tra curl
 if ! command -v curl &> /dev/null; then
     echo "[!] curl không có sẵn trên hệ thống."
     exit 1
@@ -32,20 +30,29 @@ fi
 
 echo ""
 
-# ── PHP plugin ────────────────────────────────────────────────────────────────
-echo "[*] Cài đặt PHP plugin..."
-mkdir -p "$PHP_DIR1"
-mkdir -p "$PHP_DIR2"
+# ── Xóa plugin cũ nếu có ─────────────────────────────────────────────────────
+echo "[*] Dọn dẹp plugin cũ..."
+rm -rf "$PLUGIN_DIR"
+rm -rf "$HOST_DIR"
 
-curl -fsSL "$REPO/host.php" -o "$PHP_DIR1/host.php"
+# ── Tạo thư mục ──────────────────────────────────────────────────────────────
+echo "[*] Tạo thư mục plugin..."
+mkdir -p "$PLUGIN_DIR"
+mkdir -p "$HOST_DIR"
+
+# ── Tải host.php ─────────────────────────────────────────────────────────────
+echo "[*] Tải host.php..."
+curl -fsSL "$REPO/host.php" -o "$PLUGIN_DIR/host.php"
 if [ $? -ne 0 ]; then
     echo "[!] Tải host.php thất bại."
     exit 1
 fi
-cp "$PHP_DIR1/host.php" "$PHP_DIR2/host.php"
-cp "$PHP_DIR1/host.php" "$PHP_DIR2/fsharevn.php"
+cp "$PLUGIN_DIR/host.php" "$HOST_DIR/host.php"
+cp "$PLUGIN_DIR/host.php" "$HOST_DIR/fsharevn.php"
 
-cat > "$PHP_DIR1/INFO" << 'JSON'
+# ── Ghi INFO ─────────────────────────────────────────────────────────────────
+echo "[*] Ghi INFO..."
+cat > "$PLUGIN_DIR/INFO" << 'JSON'
 {
     "name":                  "fsharevn",
     "hostprefix":            "fshare.vn,www.fshare.vn",
@@ -64,11 +71,18 @@ cat > "$PHP_DIR1/INFO" << 'JSON'
     "description":           "Update 04.2026"
 }
 JSON
-cp "$PHP_DIR1/INFO" "$PHP_DIR2/INFO"
+cp "$PLUGIN_DIR/INFO" "$HOST_DIR/INFO"
 
-# ── pyLoad plugin ─────────────────────────────────────────────────────────────
+# ── Bật plugin trong host_enabled.conf ───────────────────────────────────────
+echo "[*] Bật plugin..."
+if ! grep -q "\[fsharevn\]" "$HOST_ENABLED" 2>/dev/null; then
+    echo "" >> "$HOST_ENABLED"
+    echo "[fsharevn]" >> "$HOST_ENABLED"
+    echo "enable=1" >> "$HOST_ENABLED"
+fi
+
+# ── Update pyLoad ─────────────────────────────────────────────────────────────
 echo "[*] Cập nhật pyLoad plugin..."
-
 if [ -f "$PYLOAD_HOSTER/FshareVn.py" ]; then
     cp "$PYLOAD_HOSTER/FshareVn.py" "$PYLOAD_HOSTER/FshareVn.py.bak"
     sed -i 's/L2S7R6ZMagggC5wWkQhX2+aDi467PPuftWUMRFSn/dMnqMMZMUnN5YpvKENaEhdQQ5jxDqddt/g' "$PYLOAD_HOSTER/FshareVn.py"
@@ -93,7 +107,7 @@ fi
 echo "[*] Xóa session cache cũ..."
 rm -rf /tmp/dsm_fsharevn/
 
-# ── Restart Download Station ──────────────────────────────────────────────────
+# ── Restart DS ────────────────────────────────────────────────────────────────
 echo "[*] Restart Download Station..."
 synopkg stop DownloadStation > /dev/null 2>&1
 sleep 2

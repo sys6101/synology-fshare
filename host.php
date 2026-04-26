@@ -115,6 +115,15 @@ class SynoFileHostingFshareVn
     }
 
     // ════════════════════════════════════════════════════════════════════
+    // GetFileList — DS gọi khi supporttasklist = yes
+    // Fshare không hỗ trợ task list, trả về false
+    // ════════════════════════════════════════════════════════════════════
+    public function GetFileList()
+    {
+        return false;
+    }
+
+    // ════════════════════════════════════════════════════════════════════
     // Verify — DS gọi khi người dùng bấm "Verify" trong Settings
     // Return: USER_IS_PREMIUM | USER_IS_FREE | LOGIN_FAIL
     // ════════════════════════════════════════════════════════════════════
