@@ -46,8 +46,17 @@ ssh admin@192.168.1.100
 Sau khi đã kết nối SSH thành công, dán và chạy lệnh sau:
 
 ```bash
-curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
+sudo curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
 ```
+
+> Lệnh cần chạy với quyền `sudo` để có thể ghi file cấu hình và khởi động lại dịch vụ. Nếu gặp lỗi quyền truy cập, hãy chạy lệnh sau trước:
+> ```
+> sudo -i
+> ```
+> Sau đó chạy lại lệnh cài đặt (không cần `sudo` ở đầu nữa):
+> ```
+> curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
+> ```
 
 Script sẽ tự động tải plugin, cấu hình đúng và khởi động lại Download Station.
 
@@ -124,8 +133,10 @@ EOF
 **Bước 4. Khởi động lại Download Station**
 
 ```bash
-synopkg stop DownloadStation && synopkg start DownloadStation
+sudo synopkg stop DownloadStation && sudo synopkg start DownloadStation
 ```
+
+> Các lệnh cần chạy với quyền `sudo`.
 
 **Bước 5. Nhập thông tin tài khoản**
 
@@ -218,8 +229,17 @@ ssh admin@192.168.1.100
 Once connected, paste and run the following:
 
 ```bash
-curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
+sudo curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
 ```
+
+> The command requires `sudo` to write configuration files and restart the service. If you encounter a permission error, run the following first:
+> ```
+> sudo -i
+> ```
+> Then run the installer again (without `sudo`):
+> ```
+> curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
+> ```
 
 The script will automatically download the plugin, apply the correct configuration, and restart Download Station.
 
@@ -296,8 +316,10 @@ EOF
 **Step 4. Restart Download Station**
 
 ```bash
-synopkg stop DownloadStation && synopkg start DownloadStation
+sudo synopkg stop DownloadStation && sudo synopkg start DownloadStation
 ```
+
+> Commands require `sudo` to run.
 
 **Step 5. Configure credentials**
 

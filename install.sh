@@ -105,9 +105,14 @@ if [ -f "$PYLOAD_CONF" ]; then
     sed -i '/FshareVn - "FshareVn":/{n; s/= False/= True/}' "$PYLOAD_CONF"
 fi
 
+# ── Fix owner ────────────────────────────────────────────────────────────────
+echo "[*] Fix quyền truy cập..."
+chown -R DownloadStation:DownloadStation "$PLUGIN_DIR"
+chmod -R 755 "$PLUGIN_DIR"
+
 # ── Xóa session cache cũ ─────────────────────────────────────────────────────
 echo "[*] Xóa session cache cũ..."
-rm -rf /tmp/dsm_fsharevn/
+rm -rf /tmp/dsm_fshare-vn/
 
 # ── Restart DS ────────────────────────────────────────────────────────────────
 echo "[*] Restart Download Station..."
