@@ -1,0 +1,10 @@
+{
+    "name":           "fsharevn",
+    "hostprefix":     "fshare.vn,www.fshare.vn",
+    "displayname":    "Fshare.vn",
+    "version":        "",
+    "authentication": "yes",
+    "module":         "host.php",
+    "class":          "SynoFileHostingFshareVn",
+    "description":    "Update 04.2026"
+}
