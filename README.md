@@ -17,13 +17,43 @@ Module tích hợp Fshare.vn vào Synology Download Station, cho phép tải fil
 
 ### Cách 1 — Tự động (khuyến nghị)
 
-SSH vào NAS và chạy lệnh sau:
+**Bước 1. Bật SSH trên Synology**
+
+1. Đăng nhập vào giao diện DSM
+2. Vào **Control Panel** → **Terminal & SNMP**
+3. Tích vào **Enable SSH service**
+4. Bấm **Apply**
+
+**Bước 2. Kết nối SSH từ máy tính**
+
+Tìm địa chỉ IP của NAS tại **Control Panel** → **Network** → **Network Interface** (ví dụ: `192.168.1.100`).
+
+- **Windows**: Mở **Command Prompt** hoặc **PowerShell**, chạy:
+```
+ssh admin@192.168.1.100
+```
+Nhập mật khẩu tài khoản admin của DSM khi được hỏi.
+
+- **Mac / Linux**: Mở **Terminal**, chạy:
+```
+ssh admin@192.168.1.100
+```
+
+> Thay `admin` bằng tên tài khoản DSM của bạn, và `192.168.1.100` bằng IP thực của NAS.
+
+**Bước 3. Chạy lệnh cài đặt tự động**
+
+Sau khi đã kết nối SSH thành công, dán và chạy lệnh sau:
 
 ```bash
 curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
 ```
 
 Script sẽ tự động tải plugin, cấu hình đúng và khởi động lại Download Station.
+
+**Bước 4. Nhập thông tin tài khoản**
+
+Mở Download Station → Settings → File Hosting → chọn Fshare.vn → Edit → nhập email và mật khẩu Fshare → Verify.
 
 ---
 
@@ -159,13 +189,43 @@ A file hosting module that enables Synology Download Station to download files f
 
 ### Method 1 — Automatic (recommended)
 
-SSH into your NAS and run:
+**Step 1. Enable SSH on Synology**
+
+1. Log in to DSM
+2. Go to **Control Panel** → **Terminal & SNMP**
+3. Check **Enable SSH service**
+4. Click **Apply**
+
+**Step 2. Connect via SSH**
+
+Find your NAS IP address at **Control Panel** → **Network** → **Network Interface** (e.g. `192.168.1.100`).
+
+- **Windows**: Open **Command Prompt** or **PowerShell** and run:
+```
+ssh admin@192.168.1.100
+```
+Enter your DSM admin password when prompted.
+
+- **Mac / Linux**: Open **Terminal** and run:
+```
+ssh admin@192.168.1.100
+```
+
+> Replace `admin` with your DSM username and `192.168.1.100` with your NAS IP address.
+
+**Step 3. Run the installer**
+
+Once connected, paste and run the following:
 
 ```bash
 curl -s https://raw.githubusercontent.com/mson-ssh/synology-fshare/main/install.sh | bash
 ```
 
 The script will automatically download the plugin, apply the correct configuration, and restart Download Station.
+
+**Step 4. Configure credentials**
+
+Open Download Station → Settings → File Hosting → select Fshare.vn → Edit → enter your Fshare email and password → Verify.
 
 ---
 
