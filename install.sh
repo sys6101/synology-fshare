@@ -30,7 +30,7 @@ if [ ! -f /etc/synoinfo.conf ]; then
     exit 1
 fi
 
-if [ ! -d /volume1/@appstore/DownloadStation ]; then
+if [ ! -d /var/packages/DownloadStation ]; then
     echo -e "${RED}  ✗ Download Station chưa được cài đặt.${NC}"
     exit 1
 fi
