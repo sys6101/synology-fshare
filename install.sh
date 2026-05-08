@@ -140,12 +140,11 @@ done
 echo ""
 
 # ── Xoá file cũ và cache trước khi cài ───────────────────────────────────────
-echo -e "${YELLOW}  →${NC} Xoá file cũ và cache..."
+echo -e "${YELLOW}  →${NC} Xoá file cũ..."
 rm -rf "$PLUGIN_DIR"
 rm -rf "$HOST_DIR"
 rm -rf "/var/packages/DownloadStation/etc/download/userhosts/fsharevn"
 rm -rf "/var/packages/DownloadStation/target/hostscript/hosts/fsharevn"
-rm -rf /tmp/dsm_fshare-vn/
 rm -f /tmp/host.php
 rm -f /tmp/fshare_info
 
