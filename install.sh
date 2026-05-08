@@ -8,6 +8,13 @@ PYLOAD_ACCOUNT="/var/packages/DownloadStation/target/pyload/module/plugins/accou
 PYLOAD_CONF="/var/packages/DownloadStation/etc/pyload/plugin.conf"
 HOST_ENABLED="/var/packages/DownloadStation/etc/download/host_enabled.conf"
 
+# Tự detect APPCONF_DIR thực tế DS đang dùng (có thể là volume1, volume2...)
+APPCONF_DIR=$(readlink -f /var/packages/DownloadStation/etc/download/userhosts 2>/dev/null | sed 's|/userhosts||')
+if [ -z "$APPCONF_DIR" ]; then
+    APPCONF_DIR=$(find /volume* -path "*/@appconf/DownloadStation/download" -maxdepth 5 2>/dev/null | head -1)
+fi
+APPCONF_PLUGIN_DIR="$APPCONF_DIR/userhosts/fshare-vn"
+
 # ── Colors ────────────────────────────────────────────────────────────────────
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -292,6 +299,14 @@ chown -R DownloadStation:DownloadStation "$PLUGIN_DIR"
 chmod -R 755 "$PLUGIN_DIR"
 chmod 644 "$PLUGIN_DIR/INFO"
 
+# Fix path thực tế DS dùng (appconf symlink)
+if [ -d "$APPCONF_PLUGIN_DIR" ]; then
+    chown -R DownloadStation:DownloadStation "$APPCONF_PLUGIN_DIR"
+    chmod 755 "$APPCONF_PLUGIN_DIR"
+    chmod 755 "$APPCONF_PLUGIN_DIR/host.php" 2>/dev/null
+    chmod 644 "$APPCONF_PLUGIN_DIR/INFO" 2>/dev/null
+fi
+
 chown -R DownloadStation:DownloadStation "$HOST_DIR"
 chmod 755 "$HOST_DIR"
 chmod 755 "$HOST_DIR/host.php"
@@ -301,7 +316,7 @@ chmod 644 "$HOST_DIR/INFO"
 # Fix session cache directory
 mkdir -p /tmp/dsm_fshare-vn/
 chown DownloadStation:DownloadStation /tmp/dsm_fshare-vn/
-chmod 755 /tmp/dsm_fshare-vn/
+chmod 777 /tmp/dsm_fshare-vn/
 
 # ── Xóa session cache ─────────────────────────────────────────────────────────
 echo -e "${YELLOW}  →${NC} Xóa session cache cũ..."
