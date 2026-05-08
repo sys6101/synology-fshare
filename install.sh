@@ -139,12 +139,15 @@ done
 
 echo ""
 
-# ── Dọn dẹp plugin cũ ────────────────────────────────────────────────────────
-echo -e "${YELLOW}  →${NC} Dọn dẹp plugin cũ..."
+# ── Xoá file cũ và cache trước khi cài ───────────────────────────────────────
+echo -e "${YELLOW}  →${NC} Xoá file cũ và cache..."
 rm -rf "$PLUGIN_DIR"
 rm -rf "$HOST_DIR"
 rm -rf "/var/packages/DownloadStation/etc/download/userhosts/fsharevn"
 rm -rf "/var/packages/DownloadStation/target/hostscript/hosts/fsharevn"
+rm -rf /tmp/dsm_fshare-vn/
+rm -f /tmp/host.php
+rm -f /tmp/fshare_info
 
 # ── Tạo thư mục ──────────────────────────────────────────────────────────────
 echo -e "${YELLOW}  →${NC} Tạo thư mục plugin..."
@@ -226,13 +229,10 @@ chown -R DownloadStation:DownloadStation "$PLUGIN_DIR"
 chmod 755 "$PLUGIN_DIR"
 chmod 644 "$PLUGIN_DIR"/*
 
-<<<<<<< HEAD
 chown -R DownloadStation:DownloadStation "$HOST_DIR"
 chmod 755 "$HOST_DIR"
 chmod 644 "$HOST_DIR"/*
 
-=======
->>>>>>> 6d4d5fadee8719654d68e5f1b2c3f5f293e28194
 # ── Xóa session cache ─────────────────────────────────────────────────────────
 echo -e "${YELLOW}  →${NC} Xóa session cache cũ..."
 rm -rf /tmp/dsm_fshare-vn/
