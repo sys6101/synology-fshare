@@ -454,9 +454,8 @@ JSON
 
     # ── Restart DS ────────────────────────────────────────────────────────────
     echo -e "${YELLOW}  →${NC} Restart Download Station..."
-    synopkg stop DownloadStation > /dev/null 2>&1
-    sleep 2
-    synopkg start DownloadStation > /dev/null 2>&1
+    synopkg stop DownloadStation && synopkg start DownloadStation
+    exit_if_failed $? "Failed to restart Download Station."
     sleep 2
     if ! synopkg status DownloadStation >/dev/null 2>&1; then
         echo -e "${YELLOW}  !${NC} Download Station restart could not be verified automatically."
@@ -504,9 +503,8 @@ uninstall_plugin() {
     rm -rf /tmp/dsm_fshare-vn/
 
     echo -e "${YELLOW}  →${NC} Restarting Download Station..."
-    synopkg stop DownloadStation > /dev/null 2>&1
-    sleep 2
-    synopkg start DownloadStation > /dev/null 2>&1
+    synopkg stop DownloadStation && synopkg start DownloadStation
+    exit_if_failed $? "Failed to restart Download Station during uninstall."
 
     verify_uninstall_state
     check_plugin_status
