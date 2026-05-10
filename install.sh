@@ -80,6 +80,8 @@ build_pyload_conf_paths() {
     etc_real="$(readlink -f /var/packages/DownloadStation/etc 2>/dev/null)"
     target_real="$(readlink -f /var/packages/DownloadStation/target 2>/dev/null)"
 
+    # Keep plugin.conf patching narrow to avoid changing unrelated config copies.
+    # We only follow the Synology package symlinks exposed through /var/packages.
     append_unique_path "$etc_real/pyload/plugin.conf"
     append_unique_path "$target_real/etc/pyload/plugin.conf"
 }
@@ -300,20 +302,15 @@ set_runtime_permissions() {
         echo -e "${YELLOW}  !${NC} DownloadStation user/group not found. Skipping chown."
     fi
 
-    chmod 755 "$PLUGIN_DIR"
-    exit_if_failed $? "Failed to set permissions on plugin directory."
-
     chmod 755 "$HOST_DIR"
     exit_if_failed $? "Failed to set permissions on hostscript directory."
-
-    find "$PLUGIN_DIR" -mindepth 1 -type d -exec chmod 755 {} \;
-    exit_if_failed $? "Failed to set directory permissions inside plugin directory."
 
     find "$HOST_DIR" -mindepth 1 -type d -exec chmod 755 {} \;
     exit_if_failed $? "Failed to set directory permissions inside hostscript directory."
 
-    find "$PLUGIN_DIR" -type f ! -name 'custom_api_key.txt' -exec chmod 644 {} \;
-    exit_if_failed $? "Failed to set file permissions inside plugin directory."
+    # Keep PLUGIN_DIR close to the legacy working installer behavior.
+    chmod -R 755 "$PLUGIN_DIR"
+    exit_if_failed $? "Failed to set permissions on plugin directory."
 
     find "$HOST_DIR" -type f -exec chmod 644 {} \;
     exit_if_failed $? "Failed to set file permissions inside hostscript directory."
