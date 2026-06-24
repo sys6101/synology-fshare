@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO="https://raw.githubusercontent.com/mson-ssh/synology-fshare/main"
+REPO="https://raw.githubusercontent.com/vupn0712/synology-fshare/main"
 PLUGIN_DIR="/var/packages/DownloadStation/etc/download/userhosts/fshare-vn"
 HOST_DIR="/var/packages/DownloadStation/target/hostscript/hosts/fshare-vn"
 PYLOAD_HOSTER="/var/packages/DownloadStation/target/pyload/module/plugins/hoster"
