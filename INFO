@@ -2,7 +2,7 @@
     "name":                  "fshare-vn",
     "hostprefix":            "fshare.vn,www.fshare.vn",
     "displayname":           "Fshare.vn",
-    "version":               "1.0",
+    "version":               "3.0",
     "majorversion":          "3",
     "minorversion":          "4",
     "minfirmware":           "2600",
@@ -13,5 +13,5 @@
     "module":                "host.php",
     "class":                 "SynoFileHostingFshareVn",
     "supporttasklist":       "yes",
-    "description":           "Update 04.2026"
+    "description":           "Update 06.2026"
 }
