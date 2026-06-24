@@ -16,8 +16,8 @@ class SynoFileHostingFshareVn
 
     // ── Fshare API constants ─────────────────────────────────────────────
     const API_URL       = 'https://api.fshare.vn/api/';
-    const API_KEY       = 'dMnqMMZMUnN5YpvKENaEhdQQ5jxDqddt';
-    const API_USERAGENT = 'pyLoad-B1RS5N';
+    const API_KEY       = 'L2S7R6ZMagggC5wWkQhX2+aDi467PPuftWUMRFSn';
+    const API_USERAGENT = 'thuviencine-FSWXQQ';
     const CUSTOM_API_KEY_FILE = '/var/packages/DownloadStation/etc/download/userhosts/fshare-vn/custom_api_key.txt';
 
     // ── Session cache (lưu trong /tmp/ — quy định của Synology) ─────────
